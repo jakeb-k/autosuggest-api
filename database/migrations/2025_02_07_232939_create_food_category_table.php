@@ -13,14 +13,16 @@ return new class extends Migration
     {
         Schema::create('food_category', function (Blueprint $table) {
             $table->id();
-            $table->unsignedInteger('food_id');
-            $table->foreign('food_id')->references('id')->on('foods')->onDelete('cascade'); 
-            $table->unsignedInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade'); 
+            $table->unsignedBigInteger('food_id'); 
+            $table->foreign('food_id')->references('id')->on('foods')->onDelete('cascade');
+        
+            $table->unsignedBigInteger('category_id'); 
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+        
             $table->timestamps();
         });
+        
     }
-
     /**
      * Reverse the migrations.
      */
