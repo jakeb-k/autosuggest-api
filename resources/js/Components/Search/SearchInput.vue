@@ -25,12 +25,7 @@ export default {
     emits: ["SEARCHING"],
     watch: {
         search(value) {
-            if (value.length > 2) {
-                //throttle the search
-                setTimeout(() => {
-                    this.$emit("SEARCHING", value);
-                }, 100);
-            }
+            this.$emit("SEARCHING", value);
         },
     },
     data() {

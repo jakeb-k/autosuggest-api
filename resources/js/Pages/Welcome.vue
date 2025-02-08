@@ -4,15 +4,22 @@
         class="flex flex-col items-center justify-center h-screen bg-gray-200"
     >
         <section
-            class="w-1/3 rounded-2xl py-4 my-6 text-center bg-white shadow-lg"
+            class="w-1/3 mx-auto bg-white shadow-lg rounded-lg p-4 h-[50vh] space-y-4 relative"
         >
-            <SearchInput @SEARCHING="searchFoods" />
-        </section>
-        <section
-            class="w-1/3 mx-auto bg-white shadow-lg rounded-lg p-4 h-[50vh] space-y-4"
-        >
-            <p v-html="highlightQuery(message, query)" v-if="messages.length > 0" v-for="message in messages">
-            </p>
+            <div class="flex items-center justify-between">
+                <SearchInput @SEARCHING="searchFoods" />
+                <button
+                    @click="messages = []"
+                    class="text-blue-500 hover:underline"
+                >
+                    CLEAR
+                </button>
+            </div>
+            <p
+                v-html="highlightQuery(message, query)"
+                v-if="messages.length > 0"
+                v-for="message in messages"
+            ></p>
             <div v-else class="flex flex-col mt-12 h-full text-center">
                 <p>Begin typing to see food categories!</p>
             </div>
@@ -55,20 +62,27 @@ export default {
     methods: {
         searchFoods(query) {
             this.query = query;
-            axios
-                .get(route("foods.search", query))
-                .then((response) => {
-                    this.messages = response.data.messages;
-                })
-                .catch((error) => {
-                    console.error("Issue searching: " + error);
-                });
+            if (query.length > 2) {
+                //throttle the search
+                setTimeout(() => {
+                    axios
+                        .get(route("foods.search", query))
+                        .then((response) => {
+                            this.messages = response.data.messages;
+                        })
+                        .catch((error) => {
+                            console.error("Issue searching: " + error);
+                        });
+                }, 100);
+            } else {
+                this.messages = [];
+            }
         },
         highlightQuery(text, query) {
             if (!query) return text; // Return original text if query is empty
 
             const regex = new RegExp(`(${query})`, "gi"); // Case-insensitive global match
-            return text.replace(regex, "<b>$1</b>"); // Wrap matches in 
+            return text.replace(regex, "<b>$1</b>"); // Wrap matches in
         },
     },
 };
