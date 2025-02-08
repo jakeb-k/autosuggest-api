@@ -21,7 +21,7 @@ class FoodController extends Controller
             ->get();
         $messages = [];
         foreach($foods as $food){
-            $messages[] = $food->name . ' is a ' . implode(' ,',$food->categories->pluck('name')); 
+            $messages[] = $food->name . ' is a ' . implode(', ',$food->categories->pluck('name')->toArray()); 
         }
         if(count($messages) > 0){ 
             return response()->json([
