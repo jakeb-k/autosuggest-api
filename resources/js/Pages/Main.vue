@@ -1,15 +1,14 @@
 <template>
-    <Head title="Welcome" />
     <main
         class="flex flex-col items-center justify-center h-screen bg-gray-200"
     >
         <section
-            class="w-1/3 mx-auto bg-white shadow-lg rounded-lg p-4 h-[50vh] space-y-4 relative"
+            class="lg:w-1/2 w-3/4 mx-auto bg-white shadow-lg rounded-lg p-4 h-[50vh] space-y-4 relative"
         >
             <div class="flex items-center justify-between">
-                <SearchInput @SEARCHING="searchFoods" />
+                <SearchInput @SEARCHING="searchFoods" @RESET="isClearing = false" :isClearing="isClearing" />
                 <button
-                    @click="messages = []"
+                    @click="clearValues"
                     class="text-blue-500 hover:underline"
                 >
                     CLEAR
@@ -21,20 +20,17 @@
                 v-for="message in messages"
             ></p>
             <div v-else class="flex flex-col mt-12 h-full text-center">
-                <p>Begin typing to see food categories!</p>
+                <p>Begin typing to see food categories! Try <b>Berries</b>.</p>
             </div>
         </section>
     </main>
 </template>
 <script>
-import { Head, Link } from "@inertiajs/vue3";
 import SearchInput from "@/Components/Search/SearchInput.vue";
 import axios from "axios";
 
 export default {
     components: {
-        Head,
-        Link,
         SearchInput,
     },
     props: {
@@ -57,6 +53,7 @@ export default {
         return {
             messages: [],
             query: "",
+            isClearing: false, 
         };
     },
     methods: {
@@ -82,8 +79,13 @@ export default {
             if (!query) return text; // Return original text if query is empty
 
             const regex = new RegExp(`(${query})`, "gi"); // Case-insensitive global match
-            return text.replace(regex, "<b>$1</b>"); // Wrap matches in
+            return text.replace(regex, "<b>$1</b>"); // Wrap matches in bold tag
         },
+        clearValues(){
+            //clear the values and pass to search component to clear as well
+            this.messages = [];
+            this.isClearing = true; 
+        }
     },
 };
 </script>

@@ -22,11 +22,18 @@
 
 <script>
 export default {
-    emits: ["SEARCHING"],
+    emits: ["SEARCHING", 'RESET'],
+    props: ['isClearing'], 
     watch: {
         search(value) {
             this.$emit("SEARCHING", value);
         },
+        isClearing(value){
+            if(value){
+                this.search = '';
+                this.$emit('RESET'); 
+            } 
+        }
     },
     data() {
         return {
