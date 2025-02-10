@@ -1,4 +1,55 @@
-# Laravel & Vue Project
+# Autosuggest API
+
+## Solution Explanation
+
+### Planning & Setup
+Before starting development, I outlined a clear plan to structure the implementation efficiently. The approach included:
+1. Creating two models and defining their relationships.
+2. Generating factories to facilitate test data creation.
+3. Writing tests to ensure the logic functioned correctly.
+4. Developing a comprehensive seeder with diverse testable data.
+
+### Backend Development
+Once the foundational setup was complete, I proceeded with implementing the required functionality:
+
+#### Controller & Route Definition
+I created a controller function to handle search queries via a `GET` request.
+
+#### Query Logic
+The function performed a `LIKE` query on the `Food` model, filtering results based on the provided search term.
+
+#### Response Handling
+- If matches were found, the response returned an array of messages listing the foods and their respective categories.
+- If no matches were found, a message indicating the absence of results was returned.
+
+#### Testing
+I wrote tests for this functionality to ensure reliability before moving forward.
+
+### Frontend Implementation
+With the backend functional, I moved to the frontend:
+
+#### UI Components
+Implemented a search input, a clear button, and a display area for the results.
+
+#### Asynchronous Requests
+Used **Axios** to send the search query without requiring a page reload.
+
+#### Performance Optimization
+Introduced a throttle mechanism to prevent excessive requests and improve efficiency.
+
+#### Formatting & Highlighting
+Processed the returned messages and replaced instances of the search query within the text, wrapping them in `<b>` tags for emphasis.
+
+#### Styling & Refinements
+Applied CSS adjustments to ensure a clean and user-friendly interface.
+
+### Version Control & Best Practices
+Throughout development:
+- Work was conducted on **separate branches** for the backend, frontend, and tests.
+- Once verified and refined, each branch was merged back into the `main` branch following best practices.
+
+This structured approach ensured a well-tested, performant, and maintainable implementation.
+
 
 ## Prerequisites
 
